@@ -1,11 +1,13 @@
+import { pipeline, Readable, Writable, Transform } from 'stream'
+import { promisify } from 'util'
+import { createWriteStream } from 'fs'
+
+const pipelineAsync = promisify(pipeline)
+
+
 /* 
 CRIANDO NOSSO WRITABLE
 */
-
-import { pipeline, Readable, Writable, Transform } from 'stream'
-import { promisify } from 'util'
-
-const pipelineAsync = promisify(pipeline)
 
 // ele pode ser instanciado com 'new' (melhor) ou usado com o proprio construtor
 {
@@ -102,7 +104,10 @@ const pipelineAsync = promisify(pipeline)
     readableStream,
     writableMapToCSV,
     setHeader,
-    process.stdout
+    //process.stdout
+
+    //fala q cada pedacinho de arquivo vai ir para o csv sob demanda
+    createWriteStream('my.csv')
   )
   // .then(()=>{
   console.log('Processo acabou!')
